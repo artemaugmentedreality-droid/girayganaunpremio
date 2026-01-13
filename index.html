@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Promo Ruleta - Artem</title>
     
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/png" href="favicon.png?v=4">
+    <link rel="shortcut icon" type="image/png" href="favicon.png?v=4">
+    <link rel="apple-touch-icon" href="favicon.png?v=4">
 
     <style>
         :root { 
@@ -30,82 +27,29 @@
             height: 100vh; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Área del Logo */
-        .header-logo {
-            width: 100%;
-            height: 100px;
-            display: flex; justify-content: center; align-items: center;
-            padding: 15px 0 5px 0;
-            z-index: 10;
-        }
-        .header-logo img {
-            max-width: 200px;
-            max-height: 80px;
-            object-fit: contain;
-        }
+        .header-logo { width: 100%; height: 100px; display: flex; justify-content: center; align-items: center; padding: 15px 0 5px 0; z-index: 10; }
+        .header-logo img { max-width: 200px; max-height: 80px; object-fit: contain; }
 
-        /* Mensaje de Instrucción */
-        .instruccion-gira {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-            margin: 5px 0 15px 0;
-            text-align: center;
-            letter-spacing: 1px;
-            animation: pulse 2s infinite;
-        }
+        .instruccion-gira { font-size: 1.1rem; font-weight: 700; color: var(--white); text-transform: uppercase; margin: 5px 0 15px 0; text-align: center; letter-spacing: 1px; animation: pulse 2s infinite; }
 
-        @keyframes pulse {
-            0% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.03); }
-            100% { opacity: 0.7; transform: scale(1); }
-        }
+        @keyframes pulse { 0% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.03); } 100% { opacity: 0.7; transform: scale(1); } }
 
-        /* Contenedor de la Ruleta */
-        .wheel-box { 
-            position: relative; width: 82vw; max-width: 380px; aspect-ratio: 1/1;
-            border-radius: 50%; border: 8px solid var(--blue-neon);
-            box-shadow: 0 0 30px rgba(0,0,0,0.6), 0 0 15px var(--blue-neon);
-        }
+        .wheel-box { position: relative; width: 82vw; max-width: 380px; aspect-ratio: 1/1; border-radius: 50%; border: 8px solid var(--blue-neon); box-shadow: 0 0 30px rgba(0,0,0,0.6), 0 0 15px var(--blue-neon); }
 
         canvas { width: 100%; height: 100%; border-radius: 50%; }
         
-        .wheel-arrow {
-            position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
-            width: 35px; height: 45px; background: var(--blue-neon);
-            clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 30;
-        }
+        .wheel-arrow { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 35px; height: 45px; background: var(--blue-neon); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 30; }
 
-        .wheel-center {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70px; height: 70px; background: white; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-weight: 900; color: #1a75ff; z-index: 35;
-            box-shadow: 0 0 15px rgba(0,0,0,0.4); cursor: pointer; border: 4px solid var(--blue-neon);
-            font-size: 12px; text-transform: uppercase;
-        }
+        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; color: #1a75ff; z-index: 35; box-shadow: 0 0 15px rgba(0,0,0,0.4); cursor: pointer; border: 4px solid var(--blue-neon); font-size: 12px; text-transform: uppercase; }
 
-        /* Registro y Modales */
-        #step-registro, .modal-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 11, 46, 0.98); z-index: 100;
-            flex-direction: column; justify-content: center; align-items: center;
-        }
+        #step-registro, .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 11, 46, 0.98); z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
 
         .form-box { width: 85%; max-width: 320px; text-align: center; }
         input { width: 100%; margin: 10px 0; padding: 15px; border-radius: 12px; border: none; font-size: 16px; box-sizing: border-box; }
         
-        .btn-action {
-            background: linear-gradient(135deg, var(--magenta), var(--main-purple));
-            color: white; border: none; padding: 16px; border-radius: 12px;
-            font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px;
-        }
+        .btn-action { background: linear-gradient(135deg, var(--magenta), var(--main-purple)); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; }
 
-        .modal-content {
-            background: white; color: #333; padding: 25px; border-radius: 20px;
-            width: 80%; max-width: 350px; text-align: left;
-        }
+        .modal-content { background: white; color: #333; padding: 25px; border-radius: 20px; width: 80%; max-width: 350px; text-align: left; }
     </style>
 </head>
 <body>
@@ -146,15 +90,15 @@
         <div class="modal-content">
             <h3 style="margin-top:0; color:var(--main-purple)">Privacidad de Datos</h3>
             <p style="font-size: 14px; line-height: 1.4;">
-                Sus datos (Nombre y WhatsApp) serán enviados directamente al organizador vía mensaje de texto para la entrega de su premio. No almacenamos esta información en ninguna base de datos externa ni la compartimos con terceros.
+                Sus datos serán enviados directamente vía WhatsApp para la entrega de su premio. No almacenamos esta información en bases de datos externas.
             </p>
             <button class="btn-action" onclick="toggleModal(false)">ENTENDIDO</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN DE PREMIOS ---
-        const premios = ["PREMIO 1", "PREMIO 2", "PREMIO 3", "PREMIO 4", "PREMIO 5", "PREMIO 6", "PREMIO 7", "PREMIO 8", "PREMIO 9", "PREMIO 10", "PREMIO 11", "PREMIO 12", "PREMIO 13", "PREMIO 14", "PREMIO 15", "JACKPOT"];
+        // Se cambió "JACKPOT" por "NUEVO GIRO"
+        const premios = ["COPA DE VINO", "10% DESC", "POSTRE GRATIS", "SHOT ARTEM", "2x1 COCTEL", "SORPRESA", "5% DESC", "CAFÉ CORTESÍA", "COPA DE VINO", "10% DESC", "POSTRE GRATIS", "SHOT ARTEM", "2x1 COCTEL", "SORPRESA", "5% DESC", "NUEVO GIRO"];
         const colores = ["#ff4e00", "#ff8c00", "#ffb700", "#8e54e9", "#d946ef", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#000"];
 
         let canvas = document.getElementById('canvasWheel');
@@ -176,22 +120,27 @@
                 ctx.fill();
                 ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.stroke();
 
-                // TEXTO RADIAL VERTICAL
                 ctx.save();
                 ctx.fillStyle = "white";
                 ctx.translate(300 + Math.cos(angle + arc/2) * 200, 300 + Math.sin(angle + arc/2) * 200);
                 ctx.rotate(angle + arc/2);
-                ctx.font = 'bold 15px Arial';
+                ctx.font = 'bold 14px Arial'; // Ajustado para que quepa "NUEVO GIRO"
                 ctx.fillText(premios[i], 0, 5); 
                 ctx.restore();
             }
         }
 
         document.getElementById('btnSpin').addEventListener('click', () => {
+            iniciarGiro();
+        });
+
+        function iniciarGiro() {
             document.getElementById('btnSpin').style.pointerEvents = 'none';
             document.getElementById('btnSpin').style.opacity = '0.5';
+            document.getElementById('txtPremio').innerText = "";
+            
             let spinTime = 0;
-            let spinTimeTotal = Math.random() * 2000 + 7000; // Duración dramática
+            let spinTimeTotal = Math.random() * 2000 + 7000; 
             let spinAngleStart = Math.random() * 10 + 30;
 
             function rotate() {
@@ -206,38 +155,41 @@
                 requestAnimationFrame(rotate);
             }
             rotate();
-        });
+        }
 
         function stopRotate() {
             let degrees = startAngle * 180 / Math.PI + 90;
             let index = Math.floor((360 - degrees % 360) / (arc * 180 / Math.PI));
             if(index < 0) index += premios.length;
             premioFinal = premios[index];
-            
-            document.getElementById('msg-instruccion').innerText = "¡FELICIDADES!";
-            document.getElementById('txtPremio').innerText = "¡Has ganado: " + premioFinal + "!";
-            
-            setTimeout(() => {
-                document.getElementById('step-registro').style.display = 'flex';
-                document.getElementById('label-ganaste').innerText = "GANASTE: " + premioFinal;
-            }, 1500);
+
+            if (premioFinal === "NUEVO GIRO") {
+                document.getElementById('msg-instruccion').innerText = "¡NUEVA OPORTUNIDAD!";
+                document.getElementById('txtPremio').innerText = "¡Vuelve a girar!";
+                
+                setTimeout(() => {
+                    document.getElementById('btnSpin').style.pointerEvents = 'auto';
+                    document.getElementById('btnSpin').style.opacity = '1';
+                }, 1000);
+            } else {
+                document.getElementById('msg-instruccion').innerText = "¡FELICIDADES!";
+                document.getElementById('txtPremio').innerText = "¡Ganaste: " + premioFinal + "!";
+                
+                setTimeout(() => {
+                    document.getElementById('step-registro').style.display = 'flex';
+                    document.getElementById('label-ganaste').innerText = "GANASTE: " + premioFinal;
+                }, 1500);
+            }
         }
 
-        function toggleModal(show) {
-            document.getElementById('modal-priv').style.display = show ? 'flex' : 'none';
-        }
+        function toggleModal(show) { document.getElementById('modal-priv').style.display = show ? 'flex' : 'none'; }
 
         function enviarWhatsApp() {
             const nom = document.getElementById('nombre').value;
             const tel = document.getElementById('whatsapp').value;
             const folio = Math.floor(1000 + Math.random() * 9000);
-            
-            if(!nom || tel.length < 10 || !document.getElementById('aviso').checked) {
-                alert("Completa todos los campos y acepta la privacidad."); return;
-            }
-
-            // Mensaje configurado para el número de Artem
-            const msg = encodeURIComponent(`*RECLAMO DE PREMIO - ARTEM*\n--------------------------\n🏆 Premio: ${premioFinal}\n🆔 Folio: #RL-${folio}\n👤 Cliente: ${nom}\n📱 WhatsApp: ${tel}\n--------------------------`);
+            if(!nom || tel.length < 10 || !document.getElementById('aviso').checked) { alert("Completa los campos."); return; }
+            const msg = encodeURIComponent(`*RECLAMO DE PREMIO - ARTEM*\n🏆 Premio: ${premioFinal}\n🆔 Folio: #RL-${folio}\n👤 Cliente: ${nom}\n📱 WhatsApp: ${tel}`);
             window.location.href = `https://wa.me/5215542492026?text=${msg}`;
         }
 

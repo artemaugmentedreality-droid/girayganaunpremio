@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Ruleta de Premios</title>
-
+    <title>Promo Ruleta - Artem</title>
     <style>
         :root { 
             --deep-purple: #1a0b2e;
@@ -12,207 +11,173 @@
             --magenta: #d946ef;
             --white: #ffffff;
             --gold: #ffd700;
+            --blue-neon: #33a8ff;
         }
 
         body { 
-            margin: 0; 
-            overflow: hidden; 
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif; 
+            margin: 0; padding: 0; overflow: hidden;
+            font-family: 'Segoe UI', Roboto, sans-serif; 
             background: radial-gradient(circle, #462c7a 0%, #1a0b2e 100%); 
             color: var(--white);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100vh; display: flex; flex-direction: column; align-items: center;
         }
 
-        .screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
+        /* Área del Logo Artem / Cliente */
+        .header-logo {
             width: 100%;
+            height: 120px;
+            display: flex; justify-content: center; align-items: center;
+            padding: 10px 0;
+            z-index: 10;
+        }
+        .header-logo img {
+            max-width: 220px;
+            max-height: 100px;
+            object-fit: contain;
         }
 
         /* Contenedor de la Ruleta */
-        .wheel-box { 
-            position: relative; 
-            width: 90vw; 
-            max-width: 450px; 
-            aspect-ratio: 1/1;
-            margin: 20px 0;
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(142, 84, 233, 0.5);
-            border: 8px solid #33a8ff; /* Aro azul brillante como la imagen */
+        .wheel-container {
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; margin-top: 10px;
         }
 
-        canvas { 
-            width: 100%; 
-            height: 100%; 
-            border-radius: 50%;
+        .wheel-box { 
+            position: relative; width: 85vw; max-width: 400px; aspect-ratio: 1/1;
+            border-radius: 50%; border: 8px solid var(--blue-neon);
+            box-shadow: 0 0 40px rgba(0,0,0,0.6), 0 0 15px var(--blue-neon);
         }
+
+        canvas { width: 100%; height: 100%; border-radius: 50%; }
         
-        /* Marcador Superior */
         .wheel-arrow {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 50px;
-            background: #33a8ff;
-            clip-path: polygon(50% 100%, 0 0, 100% 0);
-            z-index: 30;
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 35px; height: 45px; background: var(--blue-neon);
+            clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 30;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
         }
 
-        /* Botón Central */
         .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #33a8ff 0%, #1a75ff 100%);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 900;
-            color: white;
-            z-index: 35;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.5);
-            cursor: pointer;
-            border: 4px solid white;
-            font-size: 14px;
-            text-transform: uppercase;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 75px; height: 75px; background: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 900; color: #1a75ff; z-index: 35;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4); cursor: pointer; border: 4px solid var(--blue-neon);
+            font-size: 13px; text-transform: uppercase;
         }
 
-        /* Estilos de Formulario */
-        #step-registro { 
-            display: none; 
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 11, 46, 0.95);
-            z-index: 100;
+        /* Pantallas de Registro y Modal */
+        #step-registro, .modal-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 11, 46, 0.98); z-index: 100;
+            flex-direction: column; justify-content: center; align-items: center;
         }
 
-        .form-box { width: 85%; max-width: 340px; }
-        input { 
-            width: 100%; margin: 10px 0; padding: 15px; border: none; border-radius: 10px; 
-            font-size: 16px; box-sizing: border-box; 
-        }
-
+        .form-box { width: 85%; max-width: 320px; text-align: center; }
+        input { width: 100%; margin: 10px 0; padding: 15px; border-radius: 12px; border: none; font-size: 16px; box-sizing: border-box; }
+        
         .btn-action {
-            background: linear-gradient(to right, var(--magenta), var(--main-purple));
-            color: white; border: none; padding: 15px 30px;
-            border-radius: 12px; font-weight: 800; cursor: pointer;
-            text-transform: uppercase; margin-top: 15px; width: 100%;
+            background: linear-gradient(135deg, var(--magenta), var(--main-purple));
+            color: white; border: none; padding: 16px; border-radius: 12px;
+            font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
         }
 
-        #txtPremio {
-            font-size: 2rem;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            margin-top: 20px;
-            font-weight: 800;
+        /* Estilo del Modal de Privacidad */
+        .modal-content {
+            background: white; color: #333; padding: 25px; border-radius: 20px;
+            width: 80%; max-width: 350px; max-height: 60vh; overflow-y: auto; text-align: left;
         }
+        .modal-content h3 { color: var(--main-purple); margin-top: 0; }
     </style>
 </head>
 <body>
 
-    <div id="wheel-container" class="screen">
-        <h1 style="font-weight: 800; margin-bottom: 5px; font-size: 1.5rem;">¡GIRA Y GANA!</h1>
+    <div class="header-logo">
+        <img src="logo-cliente.webp" alt="Artem Logo">
+    </div>
+
+    <div class="wheel-container">
         <div class="wheel-box">
             <div class="wheel-arrow"></div>
             <canvas id="canvasWheel"></canvas>
             <div class="wheel-center" id="btnSpin">GIRAR</div>
         </div>
-        <p id="txtPremio"></p>
+        <p id="txtPremio" style="font-size: 1.8rem; color: var(--gold); font-weight: 900; margin-top: 20px; min-height: 1.2em;"></p>
     </div>
 
-    <div id="step-registro" class="screen">
+    <div id="step-registro">
         <div class="form-box">
-            <h2 id="label-ganaste" style="color: var(--gold);">¡FELICIDADES!</h2>
-            <p>Déjanos tus datos para entregarte tu premio.</p>
+            <h2 id="label-ganaste" style="color: var(--gold); margin-bottom: 5px;"></h2>
+            <p style="margin-bottom: 20px;">Completa tus datos para recibir tu premio.</p>
             <input type="text" id="nombre" placeholder="Nombre completo">
             <input type="tel" id="whatsapp" placeholder="WhatsApp (10 dígitos)">
-            <div style="font-size: 12px; text-align: left; margin-top: 10px;">
-                <input type="checkbox" id="aviso"> <label for="aviso">Acepto términos y condiciones.</label>
+            
+            <div style="font-size: 12px; margin: 15px 0; display: flex; align-items: flex-start; gap: 8px;">
+                <input type="checkbox" id="aviso" style="width: 18px; height: 18px; margin: 0;"> 
+                <label for="aviso" style="text-align: left;">Acepto el <a href="javascript:void(0)" onclick="toggleModal(true)" style="color: var(--magenta);">aviso de privacidad</a>.</label>
             </div>
-            <button class="btn-action" onclick="enviarWhatsApp()">RECLAMAR POR WHATSAPP</button>
+            
+            <button class="btn-action" onclick="enviarWhatsApp()">RECLAMAR PREMIO</button>
+        </div>
+    </div>
+
+    <div id="modal-priv" class="modal-overlay" style="z-index: 200;">
+        <div class="modal-content">
+            <h3>Aviso de Privacidad</h3>
+            <p style="font-size: 14px; line-height: 1.5;">
+                En cumplimiento con la protección de datos personales, los datos recabados por <b>Artem</b> (Nombre y WhatsApp) se utilizarán exclusivamente para validar su participación y coordinar la entrega de premios. 
+                <br><br>
+                Usted acepta que al dar clic en "Reclamar", se generará un mensaje directo a nuestro canal de atención. No almacenamos estos datos en servidores de terceros.
+            </p>
+            <button class="btn-action" onclick="toggleModal(false)">CERRAR</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN DE PREMIOS ---
-        const premios = [
-            "PREMIO 1", "PREMIO 2", "PREMIO 3", "PREMIO 4", 
-            "PREMIO 5", "PREMIO 6", "PREMIO 7", "PREMIO 8",
-            "PREMIO 9", "PREMIO 10", "PREMIO 11", "PREMIO 12",
-            "PREMIO 13", "PREMIO 14", "PREMIO 15", "JACKPOT"
-        ];
-
-        // Colores inspirados en la imagen
-        const colores = [
-            "#ff4e00", "#ff8c00", "#ffb700", "#8e54e9", 
-            "#d946ef", "#9c27b0", "#673ab7", "#3f51b5",
-            "#2196f3", "#03a9f4", "#00bcd4", "#009688",
-            "#4caf50", "#8bc34a", "#cddc39", "#000000" // Negro para el Jackpot
-        ];
+        // CONFIGURACIÓN DE PREMIOS (Modifica esta lista según el cliente)
+        const premios = ["PREMIO 1", "PREMIO 2", "PREMIO 3", "PREMIO 4", "PREMIO 5", "PREMIO 6", "PREMIO 7", "PREMIO 8", "PREMIO 9", "PREMIO 10", "PREMIO 11", "PREMIO 12", "PREMIO 13", "PREMIO 14", "PREMIO 15", "JACKPOT"];
         
+        // Colores de la ruleta
+        const colores = ["#ff4e00", "#ff8c00", "#ffb700", "#8e54e9", "#d946ef", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#000"];
+
         let canvas = document.getElementById('canvasWheel');
         let ctx = canvas.getContext('2d');
         canvas.width = 600; canvas.height = 600;
-        
         let startAngle = 0;
         let arc = Math.PI / (premios.length / 2);
         let premioFinal = "";
 
         function draw() {
             ctx.clearRect(0,0,600,600);
-            const centerX = 300;
-            const centerY = 300;
-            const radius = 290;
-
             for(let i = 0; i < premios.length; i++) {
                 let angle = startAngle + i * arc;
                 ctx.fillStyle = colores[i];
-                
                 ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, angle, angle + arc, false);
-                ctx.lineTo(centerX, centerY);
+                ctx.moveTo(300, 300);
+                ctx.arc(300, 300, 290, angle, angle + arc, false);
+                ctx.lineTo(300, 300);
                 ctx.fill();
+                ctx.strokeStyle = "rgba(255,255,255,0.4)"; ctx.lineWidth = 1; ctx.stroke();
 
-                // Bordes de los gajos
-                ctx.strokeStyle = "rgba(255,255,255,0.2)";
-                ctx.stroke();
-
-                // Texto de los premios
+                // TEXTO VERTICAL / RADIAL
                 ctx.save();
                 ctx.fillStyle = "white";
-                ctx.translate(centerX + Math.cos(angle + arc/2) * 200, centerY + Math.sin(angle + arc/2) * 200);
-                ctx.rotate(angle + arc/2 + Math.PI/2);
+                ctx.translate(300 + Math.cos(angle + arc/2) * 210, 300 + Math.sin(angle + arc/2) * 210);
+                ctx.rotate(angle + arc/2);
                 ctx.font = 'bold 16px Arial';
-                const text = premios[i];
-                ctx.fillText(text, -ctx.measureText(text).width/2, 0);
+                ctx.fillText(premios[i], 0, 5); 
                 ctx.restore();
             }
         }
 
         document.getElementById('btnSpin').addEventListener('click', () => {
             document.getElementById('btnSpin').style.pointerEvents = 'none';
-            document.getElementById('btnSpin').style.opacity = '0.7';
+            document.getElementById('btnSpin').style.opacity = '0.5';
             
-            // Configuración de giro (Más tiempo y aleatoriedad)
-            let spinAngleStart = Math.random() * 10 + 25;
             let spinTime = 0;
-            // Aumentado a ~7-8 segundos (7500ms)
-            let spinTimeTotal = Math.random() * 2000 + 6000; 
+            let spinTimeTotal = Math.random() * 2000 + 7000; // 7 a 9 segundos
+            let spinAngleStart = Math.random() * 10 + 30;
 
             function rotate() {
                 spinTime += 30;
@@ -220,9 +185,7 @@
                     stopRotate();
                     return;
                 }
-                let progress = spinTime / spinTimeTotal;
-                // Cubic ease-out para un frenado suave
-                let ease = 1 - Math.pow(1 - progress, 3);
+                let ease = 1 - Math.pow(1 - (spinTime / spinTimeTotal), 3);
                 startAngle += ((spinAngleStart * (1 - ease)) * Math.PI / 180);
                 draw();
                 requestAnimationFrame(rotate);
@@ -232,26 +195,41 @@
 
         function stopRotate() {
             let degrees = startAngle * 180 / Math.PI + 90;
-            let arcd = arc * 180 / Math.PI;
-            let index = Math.floor((360 - degrees % 360) / arcd);
-            if (index < 0) index = premios.length + index;
-            
+            let index = Math.floor((360 - degrees % 360) / (arc * 180 / Math.PI));
+            if(index < 0) index += premios.length;
             premioFinal = premios[index];
+            
             document.getElementById('txtPremio').innerText = "¡" + premioFinal + "!";
             
             setTimeout(() => {
                 document.getElementById('step-registro').style.display = 'flex';
                 document.getElementById('label-ganaste').innerText = "¡GANASTE " + premioFinal + "!";
-            }, 1500);
+            }, 1800);
+        }
+
+        function toggleModal(show) {
+            document.getElementById('modal-priv').style.display = show ? 'flex' : 'none';
         }
 
         function enviarWhatsApp() {
             const nom = document.getElementById('nombre').value;
             const tel = document.getElementById('whatsapp').value;
+            const folio = Math.floor(1000 + Math.random() * 9000);
+            
             if(!nom || tel.length < 10 || !document.getElementById('aviso').checked) {
-                alert("Por favor, llena tus datos correctamente."); return;
+                alert("Completa tus datos y acepta la privacidad."); return;
             }
-            const msg = encodeURIComponent(`*NUEVO PREMIO RULETA*\n🏆 Premio: ${premioFinal}\n👤 Cliente: ${nom}\n📱 WhatsApp: ${tel}`);
+
+            const msg = encodeURIComponent(
+                `*ARTEM - RECLAMO DE PREMIO*\n` +
+                `--------------------------\n` +
+                `🏆 PREMIO: ${premioFinal}\n` +
+                `🆔 FOLIO: #RL-${folio}\n` +
+                `👤 CLIENTE: ${nom}\n` +
+                `📱 TELÉFONO: ${tel}\n` +
+                `--------------------------\n` +
+                `Canje solicitado desde la Ruleta QR.`
+            );
             window.location.href = `https://wa.me/5215542492026?text=${msg}`;
         }
 

@@ -97,8 +97,14 @@
     </div>
 
     <script>
-        // Se cambió "JACKPOT" por "NUEVO GIRO"
-        const premios = ["COPA DE VINO", "10% DESC", "POSTRE GRATIS", "SHOT ARTEM", "2x1 COCTEL", "SORPRESA", "5% DESC", "CAFÉ CORTESÍA", "COPA DE VINO", "10% DESC", "POSTRE GRATIS", "SHOT ARTEM", "2x1 COCTEL", "SORPRESA", "5% DESC", "NUEVO GIRO"];
+        // Lista de premios ajustada: Premio 1 al 15 y Nuevo Giro
+        const premios = [
+            "PREMIO 1", "PREMIO 2", "PREMIO 3", "PREMIO 4", 
+            "PREMIO 5", "PREMIO 6", "PREMIO 7", "PREMIO 8", 
+            "PREMIO 9", "PREMIO 10", "PREMIO 11", "PREMIO 12", 
+            "PREMIO 13", "PREMIO 14", "PREMIO 15", "NUEVO GIRO"
+        ];
+        
         const colores = ["#ff4e00", "#ff8c00", "#ffb700", "#8e54e9", "#d946ef", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#000"];
 
         let canvas = document.getElementById('canvasWheel');
@@ -122,9 +128,11 @@
 
                 ctx.save();
                 ctx.fillStyle = "white";
-                ctx.translate(300 + Math.cos(angle + arc/2) * 200, 300 + Math.sin(angle + arc/2) * 200);
+                // Ajustado el radio (210) para que los textos cortos se vean centrados en el segmento
+                ctx.translate(300 + Math.cos(angle + arc/2) * 210, 300 + Math.sin(angle + arc/2) * 210);
                 ctx.rotate(angle + arc/2);
-                ctx.font = 'bold 14px Arial'; // Ajustado para que quepa "NUEVO GIRO"
+                ctx.font = 'bold 16px Arial'; 
+                ctx.textAlign = "center";
                 ctx.fillText(premios[i], 0, 5); 
                 ctx.restore();
             }
@@ -190,6 +198,7 @@
             const folio = Math.floor(1000 + Math.random() * 9000);
             if(!nom || tel.length < 10 || !document.getElementById('aviso').checked) { alert("Completa los campos."); return; }
             const msg = encodeURIComponent(`*RECLAMO DE PREMIO - ARTEM*\n🏆 Premio: ${premioFinal}\n🆔 Folio: #RL-${folio}\n👤 Cliente: ${nom}\n📱 WhatsApp: ${tel}`);
+            // Número de WhatsApp configurado en el código original
             window.location.href = `https://wa.me/5215542492026?text=${msg}`;
         }
 
